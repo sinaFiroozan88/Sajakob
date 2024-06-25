@@ -30,7 +30,7 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser, PermissionsMixin):
     username = models.CharField(unique=True, max_length=255)
     password = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_joining = models.DateField(null=True, blank=True)
     favorite_books = models.ManyToManyField('books.Book', related_name='favorite_books_users', blank=True)
@@ -40,7 +40,6 @@ class User(AbstractUser, PermissionsMixin):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
     groups = models.ManyToManyField(
         'auth.Group',
         related_name='custom_user_groups',  # Adding a unique related_name
